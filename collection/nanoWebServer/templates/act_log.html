@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+    <head>
+        <title>IoTLab activity collection</title>
+        <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     </head>
+    <body onload=display_ct();>
+        <h1>Let's start our data collection!</h1>
+        <p id='ct' ></p>
+        <h2 id="device"></h2>
+        <h3>Conduct the following activity: </h3>
+        <h2 id="act"></h2>
+        <p id="round"> </p> 
+        <p id="cd"> </p>
+        <button id='btn1' type="button" onclick="function1()">Log START of activity</button> 
+        <button id='btn2' type="button" onclick="function2()">Log END of activity</button> 
+        <button id='btn3' type="button" onclick="function3()">Something goes WRONG, stop!</button> 
+        <script>
+          // Set the date we're counting down to
+          document.getElementById("cd").visibility = "hidden";
+
+          var MAX_SEC = 30;
+
+          var seconds = MAX_SEC;
+          var vis_flag = 0;
+          var round = 1;
+
+          var myObj, myJSON, text, obj;
+          var act_idx, IDX_MAX;
+          var act;
+          var data;
+          var script;
+          var device;
+
+          //Storing data:
+          myObj = {{ activity | tojson }};
+          myJSON = JSON.stringify(myObj);
+          localStorage.setItem("testJSON", myJSON);
+
+          //Retrieving data:
+          text = localStorage.getItem("testJSON");
+          obj = JSON.parse(text);
+          act_idx = 0;
+          IDX_MAX = Object.keys(obj.activities).length;
+          act = obj.activities[act_idx].activity;
+          device = obj.activities[act_idx].device;
+          script = obj.activities[act_idx].script;
+          repetition = obj.activities[act_idx].repetition;
+
+          document.getElementById("act").innerHTML = script;
+          document.getElementById("device").innerHTML = device;
+          document.getElementById("round").innerHTML = round + " round / "+ repetition + " repetitions";
+          
+          document.getElementById("btn1").disabled = false; 
+          document.getElementById("btn2").disabled = true; 
+          document.getElementById("btn3").disabled = true; 
+          // Update the count down every 1 second
+          var x = setInterval(function() {
+              if (seconds <= 0) {
+                  document.getElementById("btn1").disabled = false; 
+                  document.getElementById("btn2").disabled = true; 
+                  document.getElementById("btn3").disabled = true; 
+                  document.getElementById("cd").style.visibility = "hidden";
+                  vis_flag = 0;
+                  seconds = MAX_SEC;
+                  round = round + 1;
+                  document.getElementById("round").innerHTML = round + " round / "+ repetition + " repetitions";
+                  if(round > repetition) {
+                      act_idx = act_idx + 1;
+                      round = 1;
+                      document.getElementById("round").innerHTML = round + " round / "+ repetition + " repetitions";
+                      if(act_idx < IDX_MAX) {
+                          act = obj.activities[act_idx].activity;
+                          script = obj.activities[act_idx].script;
+                          device = obj.activities[act_idx].device;
+                          repetition = obj.activities[act_idx].repetition;
+                          document.getElementById("device").innerHTML = device;
+                          document.getElementById("round").innerHTML = round + " round / "+ repetition + " repetitions";
+                          document.getElementById("act").innerHTML = script;
+                      } else{
+                        window.location.href = "/finish";
+                      }
+                  }
+              }
+              if (vis_flag){
+                  seconds = seconds - 1;
+                  document.getElementById("btn1").disabled = true; 
+                  document.getElementById("btn2").disabled = true; 
+                  document.getElementById("btn3").disabled = true; 
+                  document.getElementById("cd").innerHTML = "Wait for " + seconds + "s to ensure complete recording of network traffic.";
+                  } else {
+                  document.getElementById("cd").style.visibility = "hidden";
+              }
+              if (seconds == MAX_SEC) {
+                  document.getElementById("cd").style.visibility = "hidden";
+              }
+          }, 1000);
+
+          function function1() { 
+              document.body.style.backgroundColor = 'lightcyan';
+              document.getElementById("cd").style.visibility = "hidden"; 
+              document.getElementById("btn1").disabled = true; 
+              document.getElementById("btn2").disabled = false;
+              document.getElementById("btn3").disabled = false;
+          } 
+          $(function() {
+                  $('button#btn1').on('click', function(e) {
+                    console.log(act, round);
+                    $.ajax({
+                      url: '/start_csv',
+                      data: {"curr_act":act, "curr_dev": device, "curr_rep": round},
+                      type: 'POST'//,
+                      // success:function(response){ document.write(response);}
+                    });
+                    return false;
+                  });
+                });
+          function function2() { 
+              document.body.style.backgroundColor = 'lightgreen';  
+              // window.alert("Click OK and wait for " + MAX_SEC + " seconds");
+              document.getElementById("cd").style.visibility = "visible";
+              vis_flag = 1;
+              seconds = MAX_SEC;
+              document.getElementById("btn1").disabled = false; 
+          } 
+          $(function() {
+                  $('button#btn2').on('click', function(e) {
+                    console.log(act, round);
+                    $.ajax({
+                      url: '/end_csv',
+                      data: {"curr_act":act, "curr_dev": device, "curr_rep": round},
+                      type: 'POST'//,
+                      // success:function(response){ document.write(response);}
+                    });
+                    return false;
+                  });
+                });
+          function function3() { 
+              document.body.style.backgroundColor = 'indianred';
+              document.getElementById("btn1").disabled = false; 
+              document.getElementById("btn2").disabled = true; 
+              document.getElementById("btn3").disabled = true; 
+              // window.alert("Adjust a bit and press button \"Log START of activity\" again!");
+              document.getElementById("cd").style.visibility = "visible";
+              vis_flag = 1;
+              seconds = MAX_SEC;
+              round = round - 1;
+          }
+          $(function() {
+                  $('button#btn3').on('click', function(e) {
+                    console.log(act, round);
+                    $.ajax({
+                      url: '/stop_csv',
+                      data: {"curr_act":act, "curr_dev": device, "curr_rep": round},
+                      type: 'POST'//,
+                      // success:function(response){ document.write(response);}
+                    });
+                    return false;
+                  });
+                });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+h1 {
+    font-size: 65pt;
+    text-align: center;
+    margin-top: 150px;
+}
+
+h2 {
+    font-size: 75pt;
+    text-align: center;
+}
+
+h3 {
+    font-size: 35pt;
+    text-align: center;
+}
+
+p {
+    font-size: 45pt;
+    text-align: center;
+}
+
+div {
+    font-size: 35pt;
+    text-align: center;
+}
+
+
+button {
+    font-size: 28pt;
+    text-align: center;
+}
+
+input {
+    font-size: 28pt;
+    text-align: center;
+}

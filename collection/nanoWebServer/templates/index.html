@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+   <head>
+      <title>IoTLab activity collection</title>
+      <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+      <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+   </head>
+   <body onload=display_ct();>
+      <h1>Welcome to the IoT Lab data collection pipeline!</h1>
+      <p id='ct' ></p>
+
+      <form action="/data" method = "POST">
+         <p>Participant ID <input id="ID" type="number" name="idnum" step="1" min="0" placeholder="e.g. 12" required/></p>
+         <p>Activity List <input id="activity" type="string" name="activity" placeholder="week1_Shinan.json" required/></p>
+         <p><input type = "submit" value = "Submit" /></p>
+     </form>
+
+   </body>
+</html>

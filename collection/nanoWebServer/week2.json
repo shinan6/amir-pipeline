@@ -1,0 +1,42 @@
+{
+    "activities": [
+        {
+            "device": "alexa",
+            "activity": "ask_weather",
+            "script": "Walk to the Echo. Say 'Alexa, what is the weather'. Walk away. ",
+            "repetition": 10
+
+        },
+        {
+            "device": "alexa",
+            "activity": "play_music",
+            "script": "Walk to the Echo. Say 'Alexa, play some music'. Let it play for a while and say 'Alexa, stop.' Walk away.",
+            "repetition": 10
+
+        },
+        {
+            "device": "alexa",
+            "activity": "no_interaction",
+            "script": "Walk to the Echo. Do nothing for 5 seconds. Walk away.",
+            "repetition": 10
+        },
+        {
+            "device": "nestcam",
+            "activity": "trigger_motion_detection",
+            "script": "Walk towards the Nest Camera. Do nothing for 5 seconds. Walk out of the view.",
+            "repetition": 10
+        },
+        {
+            "device": "nestcam",
+            "activity": "ask_time",
+            "script": "Walk to the Nest Camera. Say 'OK Google, what's the time?'. Walk away.",
+            "repetition": 10
+        },
+        {
+            "device": "nestcam",
+            "activity": "no_interaction",
+            "script": "Do not appear in the camera view. Do nothing for 5 seconds. ",
+            "repetition": 10
+        }
+    ]
+}

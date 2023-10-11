@@ -1,0 +1,34 @@
+{
+    "activities": [
+        {
+            "device": "refrigerator",
+            "activity": "open_close_fridge",
+            "script": "Walk to the frige. Open the door. Wait for 2-5 seconds. Close the door. Walk away",
+            "repetition": 10
+        },
+        {
+            "device": "refrigerator",
+            "activity": "take_out_item",
+            "script": "Walk to the frige. Open the door. Take an item out. Close the door. Walk away with the item.",
+            "repetition": 10
+        },
+        {
+            "device": "refrigerator",
+            "activity": "put_back_item",
+            "script": "Pick an item. Walk to the frige. Open the door. Put the item in the refrigerator. Close the door. Walk away. ",
+            "repetition": 10
+        },
+        {
+            "device": "refrigerator",
+            "activity": "screen_interaction",
+            "script": "Walk to the frige. Tap the screen on the right. Interact with it for 5 seconds (e.g., browse recipe, watch video, say hey bixby <some command>). Walk away.",
+            "repetition": 10
+        },
+        {
+            "device": "refrigerator",
+            "activity": "no_interaction",
+            "script": "Walk to the frige. Do nothing for 5 seconds. Walk away.",
+            "repetition": 10
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "activities": [
+        {
+            "device": "refrigerator",
+            "activity": "open_close_fridge",
+            "script": "Walk to the frige. Open the door. Wait for 2-5 seconds. Close the door. Walk away",
+            "repetition": 2
+        },
+        {
+            "device": "alexa",
+            "activity": "play_music",
+            "script": "Walk to the Echo. Say 'Alexa, play some music'. Walk away.",
+            "repetition": 2
+        }
+    ]
+}

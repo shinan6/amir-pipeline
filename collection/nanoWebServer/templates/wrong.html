@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+   <head>
+      <title>IoTLab activity collection</title>
+      <script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+      <div data-role="page" id="welcome" data-url="{{ url_for('wrong') }}"></div>
+      <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+   </head>
+   <body onload=display_ct();>
+      <h1>Something went WRONG! Files are not completely stored. (1)Try to go back in browser first. (2)If this page constantly appears, please contact Shinan to debug it! </h1>
+      <p id='ct' ></p>
+   </body>
+</html>
